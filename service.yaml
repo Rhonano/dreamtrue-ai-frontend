@@ -1,0 +1,79 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: dreamtrue-ai-frontend
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/execution-environment: gen2
+spec:
+  template:
+    metadata:
+      annotations:
+        # Autoscaling configuration
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "10"
+        
+        # Resource allocation
+        run.googleapis.com/cpu: "1"
+        run.googleapis.com/memory: "512Mi"
+        
+        # Execution environment
+        run.googleapis.com/execution-environment: gen2
+        
+        # VPC connector (if needed for private resources)
+        # run.googleapis.com/vpc-access-connector: projects/PROJECT_ID/locations/REGION/connectors/CONNECTOR_NAME
+        
+        # Cloud SQL connection (uncomment and configure if needed)
+        # run.googleapis.com/cloudsql-instances: PROJECT_ID:REGION:INSTANCE_NAME
+        
+    spec:
+      containerConcurrency: 100
+      timeoutSeconds: 300
+      
+      containers:
+      - image: gcr.io/PROJECT_ID/dreamtrue-ai-frontend:latest
+        ports:
+        - containerPort: 8080
+          name: http1
+        
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "8080"
+        
+        # Environment variables for your backend integration
+        - name: BACKEND_API_URL
+          value: "https://your-backend-api-url.com"
+        - name: VERTEX_AI_PROJECT_ID
+          value: "your-vertex-ai-project-id"
+        - name: CLOUD_STORAGE_BUCKET
+          value: "your-cloud-storage-bucket"
+        
+        # Resource limits
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        
+        # Health check
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
