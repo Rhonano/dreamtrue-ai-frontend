@@ -58,6 +58,16 @@ DreamTrue AI implements a comprehensive security framework to ensure your confid
 - **Service Used**: Granular consent management system
 - **Protection Level**: You can specify exactly how your data is used and withdraw consent anytime
 
+### **11. ESG & Anti-Bribery Compliance**
+- **Why Required**: Ensures ethical business practices and prevents corruption risks
+- **Service Used**: Google Cloud's compliance framework with automated monitoring
+- **Protection Level**: Automated detection of suspicious activities and compliance reporting
+
+### **12. Business Continuity & Disaster Recovery**
+- **Why Required**: Ensures your data and services remain available even during disruptions
+- **Service Used**: Google Cloud's multi-region redundancy with 99.9% uptime SLA
+- **Protection Level**: Automatic failover, data replication, and rapid recovery capabilities
+
 ---
 
 ## 🏛️ **Regulatory Compliance**
