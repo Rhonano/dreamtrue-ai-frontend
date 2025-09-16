@@ -1,12 +1,12 @@
 # DreamTrue AI - Client Data Protection Overview
 
-## 🛡️ **Your Data is Protected by Enterprise-Grade Security**
+## **Your Data is Protected by Enterprise-Grade Security**
 
-DreamTrue AI implements a comprehensive security framework to ensure your confidential business data remains safe throughout our AI analysis process. Our security measures are designed to meet the highest industry standards and regulatory requirements.
+DreamTrue AI implements a comprehensive security framework to ensure your confidential business data remains safe throughout our AI analysis process. Our security measures are designed to meet the highest industry standards and regulatory requirements. Google Cloud Platform (GCP) serves as our primary subprocessor, providing the underlying infrastructure and security services that power our data protection framework.
 
 ---
 
-## 🔐 **Core Security Measures**
+## **Core Security Measures**
 
 ### **1. TLS 1.3 Encryption for Data in Transit**
 - **Why Required**: Protects your data while it's being uploaded and transmitted
@@ -70,7 +70,7 @@ DreamTrue AI implements a comprehensive security framework to ensure your confid
 
 ---
 
-## 🏛️ **Regulatory Compliance**
+## **Regulatory Compliance**
 
 Our security measures ensure compliance with:
 - **GDPR** (General Data Protection Regulation) - EU privacy law
@@ -79,7 +79,7 @@ Our security measures ensure compliance with:
 
 ---
 
-## 🔄 **Data Lifecycle Protection**
+## **Data Lifecycle Protection**
 
 **Upload**: Files are scanned, validated, and encrypted immediately
 **Processing**: PII is automatically detected and protected during AI analysis
@@ -89,7 +89,7 @@ Our security measures ensure compliance with:
 
 ---
 
-## 📞 **Your Data, Your Control**
+## **Your Data, Your Control**
 
 - **Access**: View all your data and processing history
 - **Export**: Download your data in standard formats
