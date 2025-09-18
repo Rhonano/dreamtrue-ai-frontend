@@ -3,6 +3,11 @@ export interface User {
   email: string;
   name: string;
   role: 'admin' | 'user';
+  mfaEnabled: boolean;
+  mfaVerified: boolean;
+  phoneNumber?: string;
+  lastLogin?: string;
+  createdAt?: string;
 }
 
 export interface CompanyData {
@@ -51,4 +56,26 @@ export interface UploadedFile {
   uploadedAt: string;
   status: 'uploading' | 'processing' | 'ready' | 'error';
   category: 'internal' | 'external' | 'research' | 'competitor' | 'other';
+}
+
+export interface MFASetupResult {
+  success: boolean;
+  verificationId?: string;
+  qrCodeUrl?: string;
+  secretKey?: string;
+  error?: string;
+}
+
+export interface MFAVerificationResult {
+  success: boolean;
+  error?: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  mfaRequired: boolean;
+  mfaVerified: boolean;
+  error: string | null;
 }

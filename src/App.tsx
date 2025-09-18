@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
-import SimpleLogin from './components/SimpleLogin';
+import { AppProvider, useApp } from './context/AppContext';
+import LoginForm from './components/LoginForm';
 import CompanyAnalysisForm from './components/CompanyAnalysisForm';
 import AnalysisLoading from './components/AnalysisLoading';
 import Dashboard from './components/Dashboard';
 
 const AppContent: React.FC = () => {
+  const { state } = useApp();
   const [currentView, setCurrentView] = useState<'login' | 'form' | 'loading' | 'dashboard'>('login');
   const [companyName, setCompanyName] = useState('');
 
-  const handleLoginSuccess = () => {
-    setCurrentView('form');
-  };
+  // Check if user is authenticated
+  if (state.user && currentView === 'login') {
+    setCurrentView('dashboard');
+  }
 
   const handleAnalysisSubmit = (name: string) => {
     setCompanyName(name);
@@ -29,7 +32,7 @@ const AppContent: React.FC = () => {
   };
 
   if (currentView === 'login') {
-    return <SimpleLogin onLoginSuccess={handleLoginSuccess} />;
+    return <LoginForm />;
   }
 
   if (currentView === 'form') {
@@ -46,7 +49,9 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AppContent />
+      <AppProvider>
+        <AppContent />
+      </AppProvider>
     </ThemeProvider>
   );
 };

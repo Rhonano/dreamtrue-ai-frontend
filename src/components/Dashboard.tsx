@@ -10,11 +10,13 @@ import {
   Target,
   Users,
   BarChart3,
-  Upload
+  Upload,
+  Settings
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import BrandSelector from './BrandSelector';
 import FileUpload from './FileUpload';
+import MFASettings from './MFASettings';
 import { sampleBrands } from '../data/sampleBrands';
 import { Brand } from '../types';
 
@@ -23,7 +25,7 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'playbook' | 'chat' | 'insights' | 'files'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'playbook' | 'chat' | 'insights' | 'files' | 'settings'>('overview');
   const [showShareModal, setShowShareModal] = useState(false);
   const [currentBrand, setCurrentBrand] = useState<Brand>(sampleBrands[0]);
 
@@ -111,8 +113,16 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
               <span className="text-sm text-gray-600 dark:text-gray-300">Welcome back!</span>
               <ThemeToggle />
               <button
+                onClick={() => setActiveTab('settings')}
+                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                title="Settings"
+              >
+                <Settings className="h-5 w-5" />
+              </button>
+              <button
                 onClick={onLogout}
                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                title="Logout"
               >
                 <LogOut className="h-5 w-5" />
               </button>
@@ -169,7 +179,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
               { id: 'playbook', name: 'Strategy Playbook', icon: FileText },
               { id: 'chat', name: 'AI Chat', icon: MessageCircle },
               { id: 'insights', name: 'Insights', icon: TrendingUp },
-              { id: 'files', name: 'Documents', icon: Upload }
+              { id: 'files', name: 'Documents', icon: Upload },
+              { id: 'settings', name: 'Settings', icon: Settings }
             ].map((tab) => {
               const Icon = tab.icon;
               return (
@@ -383,6 +394,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
 
         {activeTab === 'files' && (
           <FileUpload brandId={currentBrand.id} />
+        )}
+
+        {activeTab === 'settings' && (
+          <MFASettings />
         )}
       </div>
 
