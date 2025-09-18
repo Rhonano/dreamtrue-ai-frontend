@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, Search, Target, TrendingUp, BarChart3, Users } from 'lucide-react';
+import { Brain, Search, Target, TrendingUp, BarChart3, Users, ArrowLeft } from 'lucide-react';
 
 interface AnalysisLoadingProps {
   companyName: string;
+  onBack?: () => void;
 }
 
-const AnalysisLoading: React.FC<AnalysisLoadingProps> = ({ companyName }) => {
+const AnalysisLoading: React.FC<AnalysisLoadingProps> = ({ companyName, onBack }) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [currentIconIndex, setCurrentIconIndex] = useState(0);
 
@@ -48,6 +49,17 @@ const AnalysisLoading: React.FC<AnalysisLoadingProps> = ({ companyName }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900 flex items-center justify-center">
+      {/* Back Button */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-4 left-4 p-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+          title="Back to Dashboard"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+      )}
+      
       <div className="max-w-4xl mx-auto py-12 px-4">
         <div className="text-center space-y-8">
           {/* Company Info */}

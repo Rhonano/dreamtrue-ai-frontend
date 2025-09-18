@@ -11,12 +11,15 @@ import {
   Users,
   BarChart3,
   Upload,
-  Settings
+  Settings,
+  Plus
 } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import BrandSelector from './BrandSelector';
 import FileUpload from './FileUpload';
 import MFASettings from './MFASettings';
+import CompanyAnalysisForm from './CompanyAnalysisForm';
+import AnalysisLoading from './AnalysisLoading';
 import { sampleBrands } from '../data/sampleBrands';
 import { Brand } from '../types';
 
@@ -28,6 +31,10 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'playbook' | 'chat' | 'insights' | 'files' | 'settings'>('overview');
   const [showShareModal, setShowShareModal] = useState(false);
   const [currentBrand, setCurrentBrand] = useState<Brand>(sampleBrands[0]);
+  const [brands, setBrands] = useState<Brand[]>(sampleBrands);
+  const [showCompanyForm, setShowCompanyForm] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzingCompany, setAnalyzingCompany] = useState('');
 
   // Mock data for the dashboard
   const reportData = {
@@ -89,6 +96,63 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     setShowShareModal(false);
   };
 
+  const handleAddCompany = () => {
+    setShowCompanyForm(true);
+  };
+
+  const handleCompanySubmit = (companyData: { name: string; url?: string; location?: string; industry?: string }) => {
+    setAnalyzingCompany(companyData.name);
+    setShowCompanyForm(false);
+    setIsAnalyzing(true);
+    
+    // Simulate analysis (5 seconds for demo)
+    setTimeout(() => {
+      // Create new brand from company data
+      const newBrand: Brand = {
+        id: `brand-${Date.now()}`,
+        name: companyData.name,
+        icon: '🏢', // Default icon
+        color: '#3B82F6', // Default blue color
+        lastUpdated: new Date().toISOString(),
+        status: 'completed'
+      };
+      
+      // Add to brands list and set as current
+      const updatedBrands = [...brands, newBrand];
+      setBrands(updatedBrands);
+      setCurrentBrand(newBrand);
+      setIsAnalyzing(false);
+      setAnalyzingCompany('');
+    }, 5000);
+  };
+
+  const handleBackToDashboard = () => {
+    setShowCompanyForm(false);
+    setIsAnalyzing(false);
+    setAnalyzingCompany('');
+  };
+
+  // Show company form if adding new company
+  if (showCompanyForm) {
+    return (
+      <CompanyAnalysisForm 
+        onLogout={onLogout} 
+        onSubmit={handleCompanySubmit}
+        onBack={handleBackToDashboard}
+      />
+    );
+  }
+
+  // Show loading if analyzing
+  if (isAnalyzing) {
+    return (
+      <AnalysisLoading 
+        companyName={analyzingCompany}
+        onBack={handleBackToDashboard}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
       {/* Header */}
@@ -104,10 +168,17 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
               </div>
               <div className="w-px h-8 bg-gray-200 dark:bg-secondary-700"></div>
               <BrandSelector 
-                brands={sampleBrands}
+                brands={brands}
                 currentBrand={currentBrand}
                 onBrandSelect={setCurrentBrand}
               />
+              <button
+                onClick={handleAddCompany}
+                className="ml-4 p-2 text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 transition-colors"
+                title="Add New Company"
+              >
+                <Plus className="h-5 w-5" />
+              </button>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600 dark:text-gray-300">Welcome back!</span>

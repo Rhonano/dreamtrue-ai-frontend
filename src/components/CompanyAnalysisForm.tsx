@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 interface CompanyAnalysisFormProps {
   onLogout: () => void;
-  onSubmit: (companyName: string) => void;
+  onSubmit: (companyData: { name: string; url?: string; location?: string; industry?: string }) => void;
+  onBack?: () => void;
 }
 
-const CompanyAnalysisForm: React.FC<CompanyAnalysisFormProps> = ({ onLogout, onSubmit }) => {
+const CompanyAnalysisForm: React.FC<CompanyAnalysisFormProps> = ({ onLogout, onSubmit, onBack }) => {
   const [formData, setFormData] = useState({
     name: '',
     url: '',
@@ -34,8 +36,13 @@ const CompanyAnalysisForm: React.FC<CompanyAnalysisFormProps> = ({ onLogout, onS
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Navigate to loading screen with company name
-      onSubmit(formData.name);
+      // Navigate to loading screen with company data
+      onSubmit({
+        name: formData.name,
+        url: formData.url || undefined,
+        location: formData.location || undefined,
+        industry: formData.industry || undefined
+      });
       
     } catch (err) {
       setError('Failed to submit analysis request. Please try again.');
@@ -59,6 +66,15 @@ const CompanyAnalysisForm: React.FC<CompanyAnalysisFormProps> = ({ onLogout, onS
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="mr-4 p-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                  title="Back to Dashboard"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </button>
+              )}
               <div className="h-8 w-8 bg-primary-600 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white font-bold">DT</span>
               </div>

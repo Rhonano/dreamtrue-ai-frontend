@@ -16,8 +16,8 @@ const AppContent: React.FC = () => {
     setCurrentView('dashboard');
   }
 
-  const handleAnalysisSubmit = (name: string) => {
-    setCompanyName(name);
+  const handleAnalysisSubmit = (companyData: { name: string; url?: string; location?: string; industry?: string }) => {
+    setCompanyName(companyData.name);
     setCurrentView('loading');
     
     // Simulate 2-3 minute analysis
